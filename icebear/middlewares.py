@@ -141,7 +141,7 @@ class SeleniumMiddleware():
             for i in range(1500):
                 self.driver.execute_script(js)
                 self.is_first = False
-            print("===滚动完毕===")
+            print("页面加载完毕返回spider处理...")
             with open("a.html", "w", encoding="utf-8") as f:
                 f.write(self.driver.page_source)
                 f.flush()
