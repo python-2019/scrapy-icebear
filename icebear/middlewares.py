@@ -4,8 +4,16 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+from time import sleep
 
 from scrapy import signals
+from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from scrapy.http import HtmlResponse
+from logging import getLogger
 
 
 class IcebearSpiderMiddleware(object):
@@ -101,3 +109,46 @@ class IcebearDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class SeleniumMiddleware():
+    def __init__(self, timeout=None, service_args=[]):
+        self.is_first = True
+        self.logger = getLogger(__name__)
+        # self.timeout = timeout
+        # self.driver = webdriver.Chrome(executable_path="E:/exe/chromdriver")
+        self.driver = webdriver.Chrome()
+        # self.driver.set_window_size(1400, 700)
+        # self.driver.set_page_load_timeout(self.timeout)
+        # self.wait = WebDriverWait(self.browser, self.timeout)
+
+    def __del__(self):
+        self.driver.close()
+
+    def process_request(self, request, spider):
+        """
+        Chrome
+        :param request: Request对象
+        :param spider: Spider对象
+        :return: HtmlResponse
+        """
+        self.driver.get(request.url)
+        self.logger.debug('Chrome is Starting: %s' % request.url)
+        if (self.is_first):
+            print("首次进入: 开始等待页面加载...")
+            sleep(5)
+            js = "window.scrollTo(0, document.body.scrollHeight)"
+            for i in range(1500):
+                self.driver.execute_script(js)
+                self.is_first = False
+            print("===滚动完毕===")
+            with open("a.html", "w", encoding="utf-8") as f:
+                f.write(self.driver.page_source)
+                f.flush()
+        return HtmlResponse(url=request.url, body=self.driver.page_source, request=request, encoding='utf-8',
+                            status=200)
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(timeout=crawler.settings.get('SELENIUM_TIMEOUT'),
+                   service_args=crawler.settings.get('PHANTOMJS_SERVICE_ARGS'))

@@ -14,12 +14,20 @@ BOT_NAME = 'icebear'
 SPIDER_MODULES = ['icebear.spiders']
 NEWSPIDER_MODULE = 'icebear.spiders'
 
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'icebear (+http://www.yourdomain.com)'
+DOWNLOADER_MIDDLEWARES = {
+   'icebear.middlewares.SeleniumMiddleware': 543,
+}
+ITEM_PIPELINES = {
+   'icebear.pipelines.IcebearPipeline': 300,
+}
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3676.400 QQBrowser/10.4.3505.400'
+LOG_LEVEL = 'WARNING'
+LOG_FILE = '../spider.log'
+# 文件存放路径
+FILE_PATH = ''
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
