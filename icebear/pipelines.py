@@ -14,7 +14,7 @@ class IcebearPipeline(object):
     def open_spider(self, spider):
         self.col = "A"
         self.row_num = 1
-        file_path = settings.get("FILE_PATH") + '白熊实习_{}_{}_{}.xlsx'
+        file_path = settings.get("FILE_PATH") + '白熊实习.xlsx'
         self.workbook = xlsxwriter.Workbook(file_path)
         headers = ['公司', '职位类别', '职位描述', '城市', '详情链接', '投递方式', '投递说明', '公司简介']
         # 新建sheet（sheet的名称为"sheet1"）
