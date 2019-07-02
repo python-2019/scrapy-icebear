@@ -25,10 +25,12 @@ class iceBearSpider(scrapy.Spider):
             item['post_category'] = li.xpath("./div/div[1]/div[2]/span/text()").extract_first()
             item['city'] = li.xpath("./div/div[1]/div[3]/span/text()").extract_first()
             item['href'] = self.host + li.xpath("./div/div[1]/@data-url").extract_first()
+            print(item['href'])
             # 详情
             yield scrapy.Request(
                 item['href'],
                 callback=self.parse_detail,
+                dont_filter=False,
                 meta={'item': copy.deepcopy(item)}, cookies=self.cookies)
 
     def parse_detail(self, response):
@@ -36,4 +38,8 @@ class iceBearSpider(scrapy.Spider):
         item['deliver_way'] = response.xpath("//div[@class='flex-center']/span/text()").extract_first()
         item['deliver_desc'] = response.xpath("//div[@class='ft15']/p/text()").extract_first()
         item['company_desc'] = response.xpath("//li[@class='item']/p[2]/text()").extract_first()
+        item['post_desc'] = response.xpath("//div[@class='positionList']").xpath("string(.)").extract_first()
+        if item['deliver_way'] is None:
+            item['deliver_way'] = response.xpath("//div[@class ='flex-center']/a/@href").extract_first()
+            item['deliver_desc'] = '详情见网址'
         yield item

@@ -14,6 +14,8 @@ class IcebearItem(scrapy.Item):
     company_name = scrapy.Field()
     # 职位类别
     post_category = scrapy.Field()
+    # 职位描述
+    post_desc = scrapy.Field()
     # 城市
     city = scrapy.Field()
     # 详情链接

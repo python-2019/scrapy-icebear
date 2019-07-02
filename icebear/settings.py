@@ -8,6 +8,7 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+import datetime
 
 BOT_NAME = 'icebear'
 
@@ -21,14 +22,18 @@ ITEM_PIPELINES = {
    'icebear.pipelines.IcebearPipeline': 300,
 }
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3676.400 QQBrowser/10.4.3505.400'
-LOG_LEVEL = 'WARNING'
+# LOG_LEVEL = 'WARNING'
 LOG_FILE = '../spider.log'
+to_day = datetime.datetime.now()
 # 文件存放路径
-FILE_PATH = ''
+FILE_PATH = '{}{}{}'.format(to_day.year, to_day.month, to_day.day)
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-
+SPIDER_MIDDLEWARES = {
+'scrapy_deltafetch.DeltaFetch': 100
+}
+DELTAFETCH_ENABLED = True
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
