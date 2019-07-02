@@ -15,6 +15,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from scrapy.http import HtmlResponse
 from logging import getLogger
 
+from icebear.URLFilter import UrlFilterAndAdd
+
 
 class IcebearSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -121,6 +123,7 @@ class SeleniumMiddleware():
         # self.driver.set_window_size(1400, 700)
         # self.driver.set_page_load_timeout(self.timeout)
         # self.wait = WebDriverWait(self.browser, self.timeout)
+        self.dupefilter = UrlFilterAndAdd()
 
     def __del__(self):
         self.driver.close()
@@ -145,6 +148,8 @@ class SeleniumMiddleware():
             with open("a.html", "w", encoding="utf-8") as f:
                 f.write(self.driver.page_source)
                 f.flush()
+        if (self.is_first == False):
+            self.dupefilter.add_url(request.url)
         return HtmlResponse(url=request.url, body=self.driver.page_source, request=request, encoding='utf-8',
                             status=200)
 

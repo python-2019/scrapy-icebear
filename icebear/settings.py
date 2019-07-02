@@ -30,6 +30,8 @@ FILE_PATH = '{}_{}_{}_{}'.format(to_day.year, to_day.month, to_day.day, to_day.m
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
+# 去重
+DUPEFILTER_CLASS = 'icebear.URLFilter.URLRedisFilter'
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 32
 

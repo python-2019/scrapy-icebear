@@ -35,7 +35,7 @@ class IcebearPipeline(object):
         self.row_num = self.row_num + 1
         col_row = self.col + str(self.row_num)
         self.worksheet.write_row(col_row, row)
-        print(row)
+        print(company_name)
         return item
 
     def close_spider(self, spider):
