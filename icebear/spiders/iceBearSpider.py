@@ -2,6 +2,7 @@
 import copy
 
 import scrapy
+from lxml import etree
 from scrapy import Request
 from icebear.items import IcebearItem
 

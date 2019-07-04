@@ -139,7 +139,7 @@ class SeleniumMiddleware():
         self.logger.debug('Chrome is Starting: %s' % request.url)
         if (self.is_first):
             print("首次进入: 开始等待页面加载...")
-            sleep(5)
+            sleep(3)
             js = "window.scrollTo(0, document.body.scrollHeight)"
             for i in range(1500):
                 self.driver.execute_script(js)
