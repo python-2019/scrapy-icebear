@@ -34,8 +34,8 @@ class UrlFilterAndAdd(object):
 
     def __init__(self):
         redis_config = {
-            "host": "localhost",
-            "port": 6379,
+            "host": "192.168.10.196",
+            "port": 10030,
             "db": 0,
         }
 
