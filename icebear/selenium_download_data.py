@@ -5,6 +5,10 @@ from selenium import webdriver
 if __name__ == '__main__':
     # 调用环境变量指定的PhantomJS浏览器创建浏览器对象
     # driver = webdriver.PhantomJS()
+
+
+    # chromedriver.exe 版本号要和谷歌浏览器对应
+    # 下载地址: http://chromedriver.storage.googleapis.com/index.html
     driver = webdriver.Chrome()
     driver.get("https://icebear.me/job.html#0!0!0!0!0!0!!1")
     js = "window.scrollTo(0, document.body.scrollHeight)"
